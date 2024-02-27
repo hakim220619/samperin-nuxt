@@ -1,0 +1,341 @@
+$flag: '/images/flag-logo.png';
+
+@mixin flag-icon{
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  @include margin-right(5px);
+  top: 1px;
+  background: url($flag) no-repeat transparent;
+  background-size: 16px auto;
+  &.ar {
+    background-position: 0 3px;
+  }
+  &.zh {
+    background-position: 0 -12px
+  }
+  &.en {
+    background-position: 0 -28px
+  }
+  &.de {
+    background-position: 0 -44px
+  }
+  &.id {
+    background-position: 0 -62px
+  }
+  &.pt {
+    background-position: 0 -79px
+  }
+}
+
+.popover {
+  @include palette-background-paper;
+  width: 200px;
+  .v-list {
+    border-radius: 0
+  }
+}
+
+.switch-toggle {
+  margin: spacing(-2, 2, 0);
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  :deep(.v-input--switch__thumb) {
+    color: var(--v-secondary-base);
+  }
+}
+
+.flex-menu {
+  display: flex;
+  margin-top: $spacing1;
+  label {
+    padding-top: 8px
+  }
+  :deep(.v-messages) {
+    display: none
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-100px)
+  }
+  to {
+    opacity: 1;
+    transform: none
+  }
+}
+
+.header.v-app-bar.v-toolbar {
+  :deep(.v-toolbar__content) {
+    height: auto !important;
+    margin: 0;
+    display: block;
+  }
+  background-color: transparent;
+  position: fixed;
+  color: $palette-common-white;
+  top: 0;
+  transition: all 0.3s ease;
+  height: auto !important;
+  @include use-theme(box-shadow, 0 0 20px $palette-primary-light, 0 0 10px $light-text-disabled);
+  .v-container {
+    #main-wrap & {
+      @include breakpoints-down(md) {
+        @include padding-left(0)
+      }
+      @include breakpoints-down(xs) {
+        @include padding-right(0)
+      }
+    }
+  }
+  nav {
+    transition: all 0.5s ease-out;
+    ul {
+      padding: 0
+    }
+  }
+  &.fixed {
+    .navigation {
+      @include palette-background-paper
+    }
+    @include breakpoints-up(md) {
+      top: $spacing7 * -1 !important
+    }
+  }
+  &.open-drawer {
+    box-shadow: none !important;
+    z-index: 1200 !important;
+  }
+}
+
+.v-toolbar__content, .v-toolbar__extension {
+  padding: 0
+}
+
+.logo {
+  display: flex;
+  a {
+    text-decoration: none;
+    font-size: 26px;
+    align-items: center;
+    display: flex;
+    @include palette-text-secondary
+  }
+  img {
+    position: relative;
+    height: 48px;
+    @include margin-right($spacing1)
+  }
+}
+
+.text-btn {
+  padding-left: $spacing1;
+  padding-right: $spacing1;
+}
+
+.header-top {
+  @include palette-background-paper;
+  padding: spacing(2, 1);
+  @include breakpoints-up(md) {
+    padding: spacing(0.5, 1)
+  }
+  > * {
+    justify-content: space-between;
+    display: flex;
+    @include breakpoints-down(sm) {
+      padding: 0
+    }
+  }
+}
+
+.user-menu {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  @include palette-text-primary;
+  i {
+    @include palette-text-primary;
+     margin: spacing(0, 1)
+  }
+  > * {
+    margin: spacing(0, 2);
+    display: flex;
+    align-items: center
+  }
+  a.v-btn--variant-text {
+    @include palette-text-primary;
+    @include margin-right($spacing3)
+  }
+}
+
+.divider {
+  border-top: none;
+  @include palette-divider;
+  @include margin-left($spacing3);
+  height: 28px;
+  max-height: none;
+  display: inline-block
+}
+
+.navigation {
+  display: flex;
+  position: relative;
+  .v-theme--dark & {
+    @include bg-color-fade($dark-background-paper, 0.7)
+  }
+  .v-theme--light & {
+    @include bg-color-fade($light-background-paper, 0.7)
+  }
+  nav {
+    align-items: center;
+    padding: $spacing1;
+    display: flex
+  }
+}
+
+.button {
+  width: $spacing15
+}
+
+nav.nav-menu {
+  @include breakpoints-up(lg) {
+    > * {
+      margin: spacing(0, 1)
+    }
+  }
+  a {
+    @include palette-text-primary;
+    font-weight: $font-bold;
+    box-shadow: none;
+    position: relative;
+    &.icon {
+      border-radius: 50%;
+      @include palette-text-secondary;
+    }
+  }
+  .scrollactive-nav {
+    list-style: none;
+    display: block;
+    @include margin-left(0);
+    @include padding-left(0);
+    li {
+      margin: spacing(0, 2);
+      list-style: none;
+      position: relative;
+      display: inline-block;
+      .v-btn  {
+        text-transform: capitalize;
+        min-width: 0;
+        padding: 6px;
+        background: none !important;
+        &.active {
+          color: $palette-primary-main;
+        }
+        &:hover {
+          opacity: 0.5;
+          &:before {
+            background: none
+          }
+        }
+      }
+    }
+  }
+}
+
+.lang-menu {
+  text-transform: capitalize;
+  .flag {
+    margin: 0;
+    & i {
+      @include flag-icon;
+    }
+  }
+  .lang-list {
+    padding: 0;
+    .lang-opt{
+      font-size: 0.875rem;
+      @include margin-left($spacing2)
+    }
+  }
+}
+
+.mode-menu {
+  text-transform: capitalize
+}
+
+.setting {
+  :deep(.v-icon) {
+    font-size: 24px;
+    transition: all 0.3s ease;
+    @include palette-text-secondary;
+  }
+  .active {
+    transform: rotate(30deg);
+  }
+}
+
+.title-menu {
+  text-transform: capitalize
+}
+
+.v-list-item__content {
+  padding: 0
+}
+
+.mobile-menu {
+  margin: spacing(0, 1);
+  .bar {
+    @include palette-background-text-secondary;
+    &:after, &:before {
+      @include palette-background-text-secondary;
+    }
+  }
+  &.active {
+    .bar {
+      @include palette-background-text-secondary;
+      &:after, &:before {
+        @include palette-background-text-secondary;
+      }
+    }
+  }
+}
+
+.v-navigation-drawer.mobile-nav {
+  z-index: 90;
+  min-width: 300px;
+  @include breakpoints-down(xs) {
+    width: 100% !important
+  }
+  .menu {
+    padding: spacing(0, 2);
+    overflow: auto;
+    top: spacing(10);
+    width: 100%;
+    position: absolute;
+    height: calc(100% - 80px);
+    .menu-list {
+      text-transform: capitalize;
+      font-size: 24px;
+      margin-top: 4px;
+      margin-bottom: 4px;
+      font-weight: $font-regular;
+      padding: spacing(1.5, 0);
+      @include palette-text-primary;
+    }
+    &.menu-open {
+      a {
+        animation-name: slideRight;
+        animation-timing-function: ease;
+      }
+    }
+  }
+  .divider-sidebar {
+    background: rgba(255, 255, 255, 0.2);
+    margin: spacing(3, 0)
+  }
+}
