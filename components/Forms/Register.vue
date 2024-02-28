@@ -111,7 +111,7 @@ export default {
     },
   },
   mounted: function () {
-    axios.get("http://localhost:3000/api/province")
+    axios.get("http://localhost:3000/api/province", )
             .then((response) =>  console.log(response));
   },
   methods: {
