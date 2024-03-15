@@ -1,30 +1,19 @@
 <template>
   <div class="root">
     <v-container :class="{ fixed: isDesktop }">
-      <main-title
-        :caption="$t('hostingLanding.pricing_headtitle')"
-        :text="$t('hostingLanding.pricing_title')"
-        align="center"
-      />
+      <main-title :caption="$t('hostingLanding.pricing_headtitle')" :text="$t('hostingLanding.pricing_title')"
+        align="center" />
       <div class="pricing-wrap">
         <section>
-          <div
-            data-aos="fade-up"
-            data-aos-offset="-100"
-            data-aos-duration="200"
-          >
-            <div>
-              <pricing-card
-                :price="50000"
-                :feature-list="feature.personal"
-                highlighted
-                img="/images/hosting/home.png"
-                title="Rumah Tangga"
-                desc="Sampah organik, unorganik, residu"
-              />
+          <div v-for="item in ListPaketAll">
+            <div data-aos="fade-up" data-aos-offset="-100" data-aos-duration="200">
+              <div>
+                <pricing-card :price=item.price :id="item.id" highlighted img="/images/hosting/home.png"
+                  :title=item.namePaket desc="Sampah organik, unorganik, residu" />
+              </div>
             </div>
           </div>
-          <div
+          <!-- <div
             data-aos="fade-up"
             data-aos-offset="-100"
             data-aos-duration="400"
@@ -54,8 +43,8 @@
                 desc="Sampah dan limbah Industri"
               />
             </div>
-          </div>
-          
+          </div> -->
+
         </section>
       </div>
     </v-container>
@@ -71,6 +60,8 @@ import AOS from 'aos';
 import Title from '../Title';
 import PricingCard from '../Cards/Pricing';
 import listFeature from './listFeature';
+import axios from 'axios';
+import ApiService from '@/plugins/apiService';
 
 export default {
   components: {
@@ -79,6 +70,7 @@ export default {
   },
   data() {
     return {
+      ListPaketAll: [],
       feature: listFeature,
     };
   },
@@ -89,9 +81,19 @@ export default {
     },
   },
   mounted() {
-    AOS.init({
-      once: true,
-    });
+
+    let token = JSON.parse(localStorage.getItem('token'));
+    return axios
+      .get(ApiService.url + "/listPaket", {
+        headers: {
+          Accept: "application/json",
+        },
+      })
+      .then((response) => { this.ListPaketAll = response.data.data }),
+
+      AOS.init({
+        once: true,
+      });
   },
 };
 </script>

@@ -29,8 +29,8 @@
               class="input" name="email" filled required />
           </v-col>
           <v-col cols="6" sm="6" class="px-3">
-            <v-select v-model="provinsi" :items="provinsiData" :value="nama" variant="outlined" class="select-lang"
-              color="primary" hide-details prepend-inner-icon="mdi-web" @update:model-value="switchLang(lang)" />
+            <v-select :items="provinsiData" item-text="nama" item-value="id" v-model="provinsi"
+              label="nama" return-object outlined></v-select>
           </v-col>
           <v-col cols="6" md="6" class="px-3">
             <v-text-field v-model="password" :label="$t('common.register_password')" :rules="requiredRules"
@@ -75,10 +75,12 @@ import axios from 'axios';
 
 export default {
   components: {
+
     SocialAuth,
     TitleSecondary,
     AuthFrame,
   },
+
   data() {
 
     return {
@@ -102,6 +104,18 @@ export default {
       ],
       checkbox: false,
       provinsiData: [],
+      rule: {
+        values: [
+          {
+            "value_display": "Broken clouds",
+            "value": "803"
+          },
+          {
+            "value_display": "Clear sky",
+            "value": "800"
+          }
+        ]
+      },
     };
   },
   computed: {
@@ -111,8 +125,8 @@ export default {
     },
   },
   mounted: function () {
-    axios.get("http://localhost:3000/api/province", )
-            .then((response) =>  console.log(response));
+
+    axios.get("http://127.0.0.1:8000/api/getProvince").then((response) => this.provinsiData = response.data.data);
   },
   methods: {
     async handleSubmit() {
@@ -125,25 +139,25 @@ export default {
         this.hideDetail = false;
       }
     },
-    async saveRegister() {
-      submitted.value = true;
-      let data = new FormData();
-      data.append('user_id', user_id.value.id);
-      // console.log(data);
+    // async saveRegister() {
+    //   submitted.value = true;
+    //   let data = new FormData();
+    //   data.append('user_id', user_id.value.id);
+    //   // console.log(data);
 
-      axios
-        .post('http://localhost:3000/api/province', data, {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data',
-            Authorization: 'Bearer ' + token
-          }
-        })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => console.log(err));
-    }
+    //   axios
+    //     .post('http://localhost:3000/api/province', data, {
+    //       headers: {
+    //         Accept: 'application/json',
+    //         'Content-Type': 'multipart/form-data',
+    //         Authorization: 'Bearer ' + token
+    //       }
+    //     })
+    //     .then((response) => {
+    //       console.log(response);
+    //     })
+    //     .catch((err) => console.log(err));
+    // }
   },
 };
 </script>
