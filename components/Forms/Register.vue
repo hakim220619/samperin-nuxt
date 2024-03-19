@@ -29,16 +29,28 @@
               class="input" name="email" filled required />
           </v-col>
           <v-col cols="6" sm="6" class="px-3">
-            <v-select :items="provinsiData" item-text="nama" item-value="id" v-model="provinsi"
-              label="nama" return-object outlined></v-select>
+            <v-select v-model="provinsi" :items="langList" :value="provinsi" class="input"
+              color="primary"   prepend-inner-icon="mdi-web" />
           </v-col>
-          <v-col cols="6" md="6" class="px-3">
+          <v-col cols="6" sm="6" class="px-3">
+            <v-select v-model="regencyid" :items="getRegency" :value="regency" class="input"
+              color="primary"  prepend-inner-icon="mdi-web" />
+          </v-col>
+          <v-col cols="6" sm="6" class="px-3">
+            <v-select v-model="district" :items="getDistrict" :value="district" class="input"
+              color="primary"  prepend-inner-icon="mdi-web" />
+          </v-col>
+          <v-col cols="6" sm="6" class="px-3">
+            <v-select v-model="villages" :items="getVillages" :value="villages" class="input"
+              color="primary"  prepend-inner-icon="mdi-web" />
+          </v-col>
+          <v-col cols="12" sm="12" class="px-3">
+            <v-text-field v-model="name" label="address" :rules="requiredRules" color="secondary"
+              class="input" name="name" filled required />
+          </v-col>
+          <v-col cols="12" md="12" class="px-3">
             <v-text-field v-model="password" :label="$t('common.register_password')" :rules="requiredRules"
               color="secondary" type="password" class="input" name="email" filled required />
-          </v-col>
-          <v-col cols="6" md="6" class="px-3">
-            <v-text-field v-model="confirmPassword" :label="$t('common.register_confirm')" :rules="passwordRules"
-              color="secondary" type="password" class="input" name="confirm" filled required />
           </v-col>
         </v-row>
         <div class="btn-area">
@@ -82,13 +94,19 @@ export default {
   },
 
   data() {
-
+    const provinsi = '';
+    const regencyid = '';
+    const district = '';
+    const villages = '';
     return {
       routerLink,
       valid: true,
       email: '',
       name: '',
-      provinsi: '',
+      provinsi,
+      regencyid,
+      district,
+      villages,
       nama: '',
       hideDetail: true,
       emailRules: [
@@ -104,30 +122,69 @@ export default {
       ],
       checkbox: false,
       provinsiData: [],
-      rule: {
-        values: [
-          {
-            "value_display": "Broken clouds",
-            "value": "803"
-          },
-          {
-            "value_display": "Clear sky",
-            "value": "800"
-          }
-        ]
-      },
+      regencyData: [],
+      districtData: [],
+      villagesData: [],
+
     };
   },
+
   computed: {
     isMobile() {
       const smDown = this.$vuetify.display.smAndDown;
       return smDown;
     },
-  },
-  mounted: function () {
+    langList() {
+      axios.get("http://127.0.0.1:8000/api/getProvince").then((response) =>  this.provinsiData = response.data.data )
+      // console.log(this.provinsiData);
+      const list = [];
+      const i18n = this.provinsiData;
 
-    axios.get("http://127.0.0.1:8000/api/getProvince").then((response) => this.provinsiData = response.data.data);
+      i18n.map((locale) => {
+        list.push({ title: locale.nama, value: locale.id });
+        return false;
+      });
+      return list;
+    },
+    getRegency() {
+      axios.get("http://127.0.0.1:8000/api/getRegency/"+ this.provinsi).then((response) => { this.regencyData = response.data.data })
+      // console.log(this.regencyData);
+      const listRegency = [];
+      const regencylist = this.regencyData;
+
+      regencylist.map((locale) => {
+        listRegency.push({ title: locale.nama, value: locale.id });
+        return false;
+      });
+      return listRegency;
+    },
+    getDistrict() {
+      axios.get("http://127.0.0.1:8000/api/getDistrict/"+ this.regencyid).then((response) => { this.districtData = response.data.data })
+      // console.log(this.districtData);
+      const list = [];
+      const districtList = this.districtData;
+
+      districtList.map((locale) => {
+        list.push({ title: locale.nama, value: locale.id });
+        return false;
+      });
+      return list;
+    },
+    getVillages() {
+      axios.get("http://127.0.0.1:8000/api/getVillage/"+ this.district).then((response) => { this.villagesData = response.data.data })
+      // console.log(this.districtData);
+      const list = [];
+      const villagestList = this.villagesData;
+
+      villagestList.map((locale) => {
+        list.push({ title: locale.nama, value: locale.id });
+        return false;
+      });
+      return list;
+    },
+    // 
   },
+
   methods: {
     async handleSubmit() {
       const { valid } = await this.$refs.form.validate();
@@ -139,6 +196,19 @@ export default {
         this.hideDetail = false;
       }
     },
+    
+    // getRegency(id) {
+    //   axios.get("http://127.0.0.1:8000/api/getRegency/" + id).then((response) => { this.regencyData = response.data.data })
+    //   // console.log(this.provinsiData);
+    //   const list = [];
+    //   const i18n = this.regencyData;
+
+    //   i18n.map((locale) => {
+    //     list.push({ title: locale.nama, value: locale.id });
+    //     return false;
+    //   });
+    //   return list;
+    // },
     // async saveRegister() {
     //   submitted.value = true;
     //   let data = new FormData();

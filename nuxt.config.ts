@@ -77,6 +77,7 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     'vite-plugin-eslint'
   ],
+
   i18n: {
     locales: languages,
     lazy: true,

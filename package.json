@@ -23,6 +23,7 @@
     "@mdi/font": "^7.0.96",
     "@splidejs/vue-splide": "^0.6.12",
     "axios": "^1.6.7",
+    "primevue": "^3.50.0",
     "rtl-sass": "^1.5.0",
     "three": "0.140.2",
     "tsparticles": "^2.9.3",
